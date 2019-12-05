@@ -10,8 +10,37 @@ $string_equality_score_1x2 = $Sample1 -eq $Sample2
 $string_equality_score_1x3 = $Sample1 -eq $Sample3
 
 # store words in lists
-$list1 = $Sample1.split(" ,.")
-$list1
+$list1 = $Sample1.split(" ,.", [System.StringSplitOptions]::RemoveEmptyEntries)
+$list2 = $Sample2.split(" ,.", [System.StringSplitOptions]::RemoveEmptyEntries)
+$list3 = $Sample3.split(" ,.", [System.StringSplitOptions]::RemoveEmptyEntries)
 
+<# check output
+clear-host
+$list1 | Out-File -FilePath 'C:\Users\tejada-mario\Documents\GitHub\DEV\CodingChallenge\list1.txt'
+$list2 | Out-File -FilePath 'C:\Users\tejada-mario\Documents\GitHub\DEV\CodingChallenge\list2.txt'
+$list3 | Out-File -FilePath 'C:\Users\tejada-mario\Documents\GitHub\DEV\CodingChallenge\list3.txt'
+#>
 Write-Host "1 vs 2 - String Equality: $string_equality_score_1x2 | Length difference: $length_score_1x2"
 Write-Host "1 vs 3 - String Equality: $string_equality_score_1x3 | Length difference: $length_score_1x3"
+
+
+# count the number of common words between 1 and 2
+# let's look at the available members of a list
+# $list1 | get-member
+
+#? is list1 item found in list2
+[int]$common_item_counter = 0
+foreach ($item in $list1) {
+    if ( $list2 -icontains $item) { $common_item_counter += 1 }
+}
+write-host "String1 and String2 have $common_item_counter items in common."
+
+# count the number of common words between 1 and 3
+#? is list1 item found in list3
+[int]$common_item_counter = 0
+foreach ($item in $list1) {
+    if ( $list3 -icontains $item) { $common_item_counter += 1 }
+}
+write-host "String1 and String3 have $common_item_counter items in common."
+
+# report the similarity index
